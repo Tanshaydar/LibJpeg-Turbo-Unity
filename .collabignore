@@ -1,0 +1,68 @@
+# ===========================
+# Default Collab Ignore Rules
+# ===========================
+
+# OS Generated
+# ============
+._*
+.DS_Store
+.Spotlight-V100
+.Trashes
+[Dd]esktop.ini
+ehthumbs.db
+Icon?
+[Tt]humbs.db
+
+
+# Visual Studio / MonoDevelop generated
+# =====================================
+.vs/
+*.booproj
+*.csproj
+*.pdb
+*.pidb
+*.sln
+*.suo
+*.unityproj
+*.user
+*.userprefs
+[Ee]xported[Oo]bj/
+
+
+# Other IDE / Misc
+==================
+.consulo/
+*.tmp
+*.mdb
+*.opendb
+*.svd
+*.tmp
+*.VC.db
+
+
+# Unity generated
+# ===============
+.*/
+*.stackdump
+[Bb]uild/
+[Bb]uilds/
+[Ll]ibrary/
+[Ll]ogs/
+[Oo]bj/
+sysinfo.txt
+[Tt]emp/
+[Rr]ecordings/
+[Ee]lumenati/
+
+# Build related
+# =============
+.gradle/
+*.apk
+*.unitypackage
+crashlytics-build.properties
+
+# Custom
+# =============
+Elumenati/Omnity/ElumenatiLicense.xml
+!BuildProject.cmd
+!OpenProject.cmd
