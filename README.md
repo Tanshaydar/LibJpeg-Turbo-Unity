@@ -5,7 +5,9 @@ libjpeg-turbo is a faster image codec.
 
 While Unity's [ImageConversion.EncodeArrayToJPG](https://docs.unity3d.com/ScriptReference/ImageConversion.EncodeArrayToJPG.html) is fast enough for single use, for every-frame use or on older PCs/Mobile platforms the difference is huge.
 
-Currently supports Android armeabi-v7a/arm64-v8a and Windows x86/x64. At least that was my use case.
+Currently supports Android armeabi-v7a/arm64-v8a and Windows x86/x64. At least that was my use case. If you want more platforms, you can build your own libjpeg-turbo and still use the same importer/wrapper here.
+
+Otherwise, simply download ##Plugins.zip## file from release tab and put it under your Assets folder.
 
 ## Example/Demonstration
 Captured on Pico Neo 3 Pro Eye, using the 3.0.2 release build. Numbers are aggregated and averaged milliseconds.
