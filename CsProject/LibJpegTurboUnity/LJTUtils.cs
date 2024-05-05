@@ -21,7 +21,7 @@ namespace LibJpegTurboUnity
             var int64 = intPtr.ToInt64();
             foreach (var structure in structArray)
             {
-                Marshal.StructureToPtr(structure, new IntPtr(int64), false);
+                Marshal.StructureToPtr(structure ?? throw new InvalidOperationException(), new IntPtr(int64), false);
                 int64 += num;
             }
 
