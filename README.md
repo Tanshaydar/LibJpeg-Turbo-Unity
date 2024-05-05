@@ -20,8 +20,7 @@ Numbers are in milliseconds, values are aggregated and averaged.
 
 Captured on Pico Neo 3 Pro Eye, using the 3.0.2 release build. 
 
-
-https://github.com/Tanshaydar/LibJpegTurboUnity/assets/1215477/d3e65f4b-fd1b-4049-b0a1-e2adae0ab277
+https://github.com/Tanshaydar/LibJpeg-Turbo-Unity/assets/1215477/ad610f4d-264d-4350-8f39-2717deeda9ca
 
 Captured on i7-9750H & nVidia 2070 Max-Q
 
