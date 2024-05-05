@@ -8,7 +8,11 @@ While Unity's [ImageConversion.EncodeArrayToJPG](https://docs.unity3d.com/Script
 Currently supports Android armeabi-v7a/arm64-v8a and Windows x86/x64. At least that was my use case.
 
 ## Example/Demonstration
-Captured on Pico Neo 3 Pro Eye, using the 3.0.2 release build.
+Captured on Pico Neo 3 Pro Eye, using the 3.0.2 release build. Numbers are averagaged milliseconds.
+
+
+https://github.com/Tanshaydar/LibJpegTurboUnity/assets/1215477/d3e65f4b-fd1b-4049-b0a1-e2adae0ab277
+
 
 
 ## Unity project
