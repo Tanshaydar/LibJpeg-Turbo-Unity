@@ -7,7 +7,7 @@ While Unity's [ImageConversion.EncodeArrayToJPG](https://docs.unity3d.com/Script
 
 Currently supports _Android armeabi-v7a / arm64-v8a_ and _Windows x86 / x64_. At least that was my use case. If you want more platforms, you can build your own libjpeg-turbo and still use the same importer/wrapper here.
 
-Otherwise, simply download **Plugins.zip** file from release tab and put it under your Assets folder.
+Otherwise, simply download **Plugins.zip** file from [releases tab](https://github.com/Tanshaydar/LibJpegTurboUnity/releases) and put it under your Assets folder.
 
 ## Example/Demonstration
 Captured on Pico Neo 3 Pro Eye, using the 3.0.2 release build. Numbers are aggregated and averaged milliseconds.
