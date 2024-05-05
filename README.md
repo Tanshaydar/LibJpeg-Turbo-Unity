@@ -10,11 +10,22 @@ Currently supports _Android armeabi-v7a / arm64-v8a_ and _Windows x86 / x64_. At
 Otherwise, simply download **Plugins.zip** file from [releases tab](https://github.com/Tanshaydar/LibJpegTurboUnity/releases) and put it under your Assets folder.
 
 ## Example/Demonstration
-Captured on Pico Neo 3 Pro Eye, using the 3.0.2 release build. Numbers are aggregated and averaged milliseconds.
+_Capture settings:_
+
+* Streaming Camera RenderTexture resolution: 1440x810
+* Target FPS for Streaming Camera: 30
+* Encode Quality: 75
+
+Numbers are in milliseconds, values are aggregated and averaged.
+
+Captured on Pico Neo 3 Pro Eye, using the 3.0.2 release build. 
 
 
 https://github.com/Tanshaydar/LibJpegTurboUnity/assets/1215477/d3e65f4b-fd1b-4049-b0a1-e2adae0ab277
 
+Captured on i7-9750H & nVidia 2070 Max-Q
+
+![Screenshot 2024-05-05 185456](https://github.com/Tanshaydar/LibJpegTurboUnity/assets/1215477/66dd5b8f-0514-4c03-8bab-c7a14844dbea)
 
 
 ## Unity project
