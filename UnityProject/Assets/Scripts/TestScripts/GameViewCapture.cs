@@ -22,16 +22,18 @@ public class GameViewCapture : MonoBehaviour
     public Renderer LibJpegTurboEncodeRenderer;
 
     public TextMeshProUGUI ByUnityEncoderTiming;
-    public TextMeshProUGUI ByUnityDecoderTiming;
+    public TextMeshProUGUI ByUnityEncoderTimingV2;
     public TextMeshProUGUI ByLibJpegTurboEncoderTiming;
-    public TextMeshProUGUI ByLibJpegTurboDecoderTiming;
+    public TextMeshProUGUI ByLibJpegTurboEncoderTimingV2;
 
-    private readonly Stopwatch _sw1 = new();
-    private readonly Stopwatch _sw2 = new();
+    private Stopwatch _sw1 = new();
+    private double _timeKeeperUnity;
+    private Stopwatch _sw2 = new();
+    private double _timeKeeperLibJpegTurbo;
     private readonly FixedSizedQueue<long> _byLibJpegTurboEncoderAverageValue = new FixedSizedQueue<long>(250);
-    private readonly FixedSizedQueue<long> _byLibJpegTurboDecoderAverageValue = new FixedSizedQueue<long>(250);
+    private readonly FixedSizedQueue<double> _byLibJpegTurboEncoderAverageValueV2 = new FixedSizedQueue<double>(250);
     private readonly FixedSizedQueue<long> _byUnityEncoderAverageValue = new FixedSizedQueue<long>(250);
-    private readonly FixedSizedQueue<long> _byUnityDecoderAverageValue = new FixedSizedQueue<long>(250);
+    private readonly FixedSizedQueue<double> _byUnityEncoderAverageValueV2 = new FixedSizedQueue<double>(250);
 
     private float _lastCapture = -1f;
 
@@ -116,11 +118,14 @@ public class GameViewCapture : MonoBehaviour
         }
 
         _sw1.Restart();
+        _timeKeeperUnity = Time.realtimeSinceStartupAsDouble;
         byte[] encodedImageUnity = ImageConversion.EncodeArrayToJPG(data, streamingTexture.graphicsFormat,
             (uint) streamingTexture.width, (uint) streamingTexture.height, 0, Quality);
-        _sw1.Start();
+        _sw1.Stop();
         _byUnityEncoderAverageValue.Enqueue(_sw1.ElapsedMilliseconds);
-        ByUnityEncoderTiming.text = "Unity Encoder: " + _byUnityEncoderAverageValue.Average().ToString("F8");
+        _byUnityEncoderAverageValueV2.Enqueue(Time.realtimeSinceStartupAsDouble - _timeKeeperUnity);
+        ByUnityEncoderTiming.text = "Unity Enc: " + _byUnityEncoderAverageValue.Average().ToString("F8");
+        ByUnityEncoderTimingV2.text = "Unity Enc: " + _byUnityEncoderAverageValueV2.Average().ToString("F8");
 
         _byUnityTex2D = new Texture2D(streamingTexture.width, streamingTexture.height);
         _byUnityTex2D.LoadImage(encodedImageUnity);
@@ -140,12 +145,15 @@ public class GameViewCapture : MonoBehaviour
             : LJTPixelFormat.RGBA;
 
         _sw2.Restart();
+        _timeKeeperLibJpegTurbo = Time.realtimeSinceStartupAsDouble;
         byte[] encodedImageLibJpegTurbo =
             _ljtCompressor.EncodeJPG(data, streamingTexture.width, streamingTexture.height, pixelFormat, Quality);
         _sw2.Stop();
         _byLibJpegTurboEncoderAverageValue.Enqueue(_sw2.ElapsedMilliseconds);
+        _byLibJpegTurboEncoderAverageValueV2.Enqueue(Time.realtimeSinceStartupAsDouble - _timeKeeperLibJpegTurbo);
         ByLibJpegTurboEncoderTiming.text =
-            "LibJpegTurbo Encoder: " + _byLibJpegTurboEncoderAverageValue.Average().ToString("F8");
+            "LibJpegTurbo Enc: " + _byLibJpegTurboEncoderAverageValue.Average().ToString("F8");
+        ByLibJpegTurboEncoderTimingV2.text= "LibJpegTurbo Enc: " + _byLibJpegTurboEncoderAverageValueV2.Average().ToString("F8");
 
         _byLibJpegTurboTex2D = new Texture2D(streamingTexture.width, streamingTexture.height);
         _byLibJpegTurboTex2D.LoadImage(encodedImageLibJpegTurbo);

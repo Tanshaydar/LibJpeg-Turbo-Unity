@@ -1313,9 +1313,9 @@ MonoBehaviour:
   UnityEncodeRenderer: {fileID: 352272286}
   LibJpegTurboEncodeRenderer: {fileID: 1093356424}
   ByUnityEncoderTiming: {fileID: 1032843198}
-  ByUnityDecoderTiming: {fileID: 1838220784}
+  ByUnityEncoderTimingV2: {fileID: 1838220784}
   ByLibJpegTurboEncoderTiming: {fileID: 1200334523}
-  ByLibJpegTurboDecoderTiming: {fileID: 525336174}
+  ByLibJpegTurboEncoderTimingV2: {fileID: 525336174}
 --- !u!20 &1300611054
 Camera:
   m_ObjectHideFlags: 0
@@ -1584,12 +1584,12 @@ GameObject:
   - component: {fileID: 1397926612}
   - component: {fileID: 1397926611}
   m_Layer: 5
-  m_Name: CanvasByLibJpegTurboDecoder
+  m_Name: CanvasByLibJpegTurboEncoderV2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1397926611
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1873,12 +1873,12 @@ GameObject:
   - component: {fileID: 1780439840}
   - component: {fileID: 1780439839}
   m_Layer: 5
-  m_Name: CanvasByUnityDecoder
+  m_Name: CanvasByUnityEncoderV2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1780439839
 MonoBehaviour:
   m_ObjectHideFlags: 0
