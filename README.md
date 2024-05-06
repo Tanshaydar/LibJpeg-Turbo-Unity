@@ -34,7 +34,7 @@ https://github.com/Tanshaydar/LibJpeg-Turbo-Unity/assets/1215477/74bf0037-e49f-4
 ![Screenshot 2024-05-06 173726](https://github.com/Tanshaydar/LibJpeg-Turbo-Unity/assets/1215477/b4794f12-a346-4ba9-bf48-3bd3f06e5d47)
 
 ## Comparison
-Even though on Windows x64 libjpeg-turbo is x1.2 faster, if you run it at 60 FPS it makes a difference and the room for more things is always welcome. Though it still can be considered as a micro optimization.
+Even though on Windows x64 libjpeg-turbo is x1.25 faster, if you run it at 60 FPS it makes a difference and the room for more things is always welcome. Though it still can be considered as a micro optimization.
 
 On Android though, the difference is x5, so it's a pretty clear choice.
 
