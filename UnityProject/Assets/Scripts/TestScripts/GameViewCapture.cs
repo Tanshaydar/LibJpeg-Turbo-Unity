@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using LibJpegTurboUnity;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Rendering;
@@ -20,18 +21,26 @@ public class GameViewCapture : MonoBehaviour
     public Renderer UnityEncodeRenderer;
     public Renderer LibJpegTurboEncodeRenderer;
 
-    public TextMeshProUGUI ByUnityTiming;
-    public TextMeshProUGUI ByLibJpegTurboTiming;
+    public TextMeshProUGUI ByUnityEncoderTiming;
+    public TextMeshProUGUI ByUnityDecoderTiming;
+    public TextMeshProUGUI ByLibJpegTurboEncoderTiming;
+    public TextMeshProUGUI ByLibJpegTurboDecoderTiming;
 
     private readonly Stopwatch _sw1 = new();
     private readonly Stopwatch _sw2 = new();
-    private readonly List<long> byLibJpegTurboAverageValue = new();
-    private readonly List<long> byUnityAverageValue = new();
+    private readonly FixedSizedQueue<long> _byLibJpegTurboEncoderAverageValue = new FixedSizedQueue<long>(250);
+    private readonly FixedSizedQueue<long> _byLibJpegTurboDecoderAverageValue = new FixedSizedQueue<long>(250);
+    private readonly FixedSizedQueue<long> _byUnityEncoderAverageValue = new FixedSizedQueue<long>(250);
+    private readonly FixedSizedQueue<long> _byUnityDecoderAverageValue = new FixedSizedQueue<long>(250);
 
     private float _lastCapture = -1f;
 
-    private LibJpegTurboUnity.LJTCompressor _ljtCompressor;
+    private LJTCompressor _ljtCompressor;
+    private LJTDecompressor _ljtDecomporessor;
+
     private RenderTexture streamingTexture;
+    private Texture2D _byUnityTex2D;
+    private Texture2D _byLibJpegTurboTex2D;
 
     private void Awake()
     {
@@ -45,7 +54,8 @@ public class GameViewCapture : MonoBehaviour
                 RenderTextureFormat.ARGB32));
         StreaminCamera.targetTexture = streamingTexture;
 
-        _ljtCompressor = new LibJpegTurboUnity.LJTCompressor();
+        _ljtCompressor = new LJTCompressor();
+        _ljtDecomporessor = new LJTDecompressor();
     }
 
     private IEnumerator Start()
@@ -69,6 +79,7 @@ public class GameViewCapture : MonoBehaviour
     private void OnDestroy()
     {
         _ljtCompressor.Dispose();
+        _ljtDecomporessor.Dispose();
     }
 
     private void CaptureGameView()
@@ -100,39 +111,66 @@ public class GameViewCapture : MonoBehaviour
     {
         //Texture2D tex = new Texture2D(_renderTexture.width, _renderTexture.height);
         if (streamingTexture == null)
+        {
             return;
+        }
+
         _sw1.Restart();
-        var encodedImage = ImageConversion.EncodeArrayToJPG(data, streamingTexture.graphicsFormat,
+        byte[] encodedImageUnity = ImageConversion.EncodeArrayToJPG(data, streamingTexture.graphicsFormat,
             (uint) streamingTexture.width, (uint) streamingTexture.height, 0, Quality);
         _sw1.Start();
-        byUnityAverageValue.Add(_sw1.ElapsedMilliseconds);
-        ByUnityTiming.text = "Unity: " + byUnityAverageValue.Average().ToString("F4");
-        var tex2D = new Texture2D(streamingTexture.width, streamingTexture.height);
-        tex2D.LoadImage(encodedImage);
-        tex2D.Apply();
-        UnityEncodeRenderer.material.mainTexture = tex2D;
+        _byUnityEncoderAverageValue.Enqueue(_sw1.ElapsedMilliseconds);
+        ByUnityEncoderTiming.text = "Unity Encoder: " + _byUnityEncoderAverageValue.Average().ToString("F8");
+
+        _byUnityTex2D = new Texture2D(streamingTexture.width, streamingTexture.height);
+        _byUnityTex2D.LoadImage(encodedImageUnity);
+        _byUnityTex2D.Apply();
+        UnityEncodeRenderer.material.mainTexture = _byUnityTex2D;
     }
 
     private void AssignTextureByLibJpegTurbo(byte[] data)
     {
         if (streamingTexture == null)
+        {
             return;
+        }
+
+        LJTPixelFormat pixelFormat = data.Length / (streamingTexture.height * streamingTexture.width) == 3
+            ? LJTPixelFormat.RGB
+            : LJTPixelFormat.RGBA;
+
         _sw2.Restart();
-        var encodedImage = _ljtCompressor.EncodeJPG(data, streamingTexture.width, streamingTexture.height,
-            data.Length / (streamingTexture.height * streamingTexture.width) == 3
-                ? LibJpegTurboUnity.LJTPixelFormat.RGB
-                : LibJpegTurboUnity.LJTPixelFormat.RGBA, Quality);
+        byte[] encodedImageLibJpegTurbo =
+            _ljtCompressor.EncodeJPG(data, streamingTexture.width, streamingTexture.height, pixelFormat, Quality);
         _sw2.Stop();
-        byLibJpegTurboAverageValue.Add(_sw2.ElapsedMilliseconds);
-        ByLibJpegTurboTiming.text = "LibJpegTurbo: " + byLibJpegTurboAverageValue.Average().ToString("F4");
+        _byLibJpegTurboEncoderAverageValue.Enqueue(_sw2.ElapsedMilliseconds);
+        ByLibJpegTurboEncoderTiming.text =
+            "LibJpegTurbo Encoder: " + _byLibJpegTurboEncoderAverageValue.Average().ToString("F8");
 
-        //tex2D.LJTMatchResolution(ref tex2D, streamingTexture.width, streamingTexture.height);
-        //tex2D.LJTLoadJPG(tex2D, encodedImage);
-        //tex2D.Apply();
+        _byLibJpegTurboTex2D = new Texture2D(streamingTexture.width, streamingTexture.height);
+        _byLibJpegTurboTex2D.LoadImage(encodedImageLibJpegTurbo);
+        _byLibJpegTurboTex2D.Apply();
+        LibJpegTurboEncodeRenderer.material.mainTexture = _byLibJpegTurboTex2D;
+    }
+}
 
-        var tex2D = new Texture2D(streamingTexture.width, streamingTexture.height);
-        tex2D.LoadImage(encodedImage);
-        tex2D.Apply();
-        LibJpegTurboEncodeRenderer.material.mainTexture = tex2D;
+public class FixedSizedQueue<T> : Queue<T>
+{
+    private readonly int maxQueueSize;
+    private readonly object syncRoot = new object();
+
+    public FixedSizedQueue(int maxQueueSize)
+    {
+        this.maxQueueSize = maxQueueSize;
+    }
+
+    public new void Enqueue(T item)
+    {
+        lock (syncRoot)
+        {
+            base.Enqueue(item);
+            if (Count > maxQueueSize)
+                Dequeue(); // Throw away
+        }
     }
 }
