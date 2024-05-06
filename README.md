@@ -16,16 +16,27 @@ _Capture settings:_
 * Target FPS for Streaming Camera: 30
 * Encode Quality: 75
 
-Numbers are in milliseconds, values are aggregated and averaged.
+Numbers in the first row are gathered with StopWatch, and in milliseconds.
 
-Captured on Pico Neo 3 Pro Eye, using the 3.0.2 release build. 
+Numbers in the second row are gathered with Time.realtimeSinceStartupAsDouble for more precision.
 
-https://github.com/Tanshaydar/LibJpeg-Turbo-Unity/assets/1215477/ad610f4d-264d-4350-8f39-2717deeda9ca
+All values are aggregated and averaged on a fixed sized queue (250 frame).
 
-Captured on i7-9750H & nVidia 2070 Max-Q
+#### Captured on Pico Neo 3 Pro Eye (arm64-v8a)
 
-![Screenshot 2024-05-05 185456](https://github.com/Tanshaydar/LibJpegTurboUnity/assets/1215477/66dd5b8f-0514-4c03-8bab-c7a14844dbea)
 
+https://github.com/Tanshaydar/LibJpeg-Turbo-Unity/assets/1215477/74bf0037-e49f-49ae-abdc-711e1b8411bf
+
+
+
+#### Captured on i7-9750H & nVidia 2070 Max-Q (Win x64)
+
+![Screenshot 2024-05-06 173726](https://github.com/Tanshaydar/LibJpeg-Turbo-Unity/assets/1215477/b4794f12-a346-4ba9-bf48-3bd3f06e5d47)
+
+## Comparison
+Even though on Windows x64 libjpeg-turbo is x1.2 faster, if you run it at 60 FPS it makes a difference and the room for more things is always welcome. Though it still can be considered as a micro optimization.
+
+On Android though, the difference is x5, so it's a pretty clear choice.
 
 ## Unity project
 Unity project is under UnityProject folder, and is a simple representation/demonstration of the usage. It also shows the folder structure and usage (i.e. create/import/dispose) of the library. It's using AsyncGPUReadback to capture the gameview and display it on the preview screens on top of the screen.
