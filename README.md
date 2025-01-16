@@ -22,21 +22,20 @@ Numbers in the second row are gathered with Time.realtimeSinceStartupAsDouble fo
 
 All values are aggregated and averaged on a fixed sized queue (250 frame).
 
-#### Captured on Pico Neo 3 Pro Eye (arm64-v8a)
+#### Captured on Pico Neo 4 Enterprise (arm64-v8a)
 
+https://github.com/user-attachments/assets/5a5028c0-89d5-42e8-878e-6afb56ccfc62
 
-https://github.com/Tanshaydar/LibJpeg-Turbo-Unity/assets/1215477/74bf0037-e49f-49ae-abdc-711e1b8411bf
+#### Captured on AMD Ryzen 7900X3D & nVidia 4080 Super (Win x64)
 
-
-
-#### Captured on i7-9750H & nVidia 2070 Max-Q (Win x64)
-
-![Screenshot 2024-05-06 173726](https://github.com/Tanshaydar/LibJpeg-Turbo-Unity/assets/1215477/b4794f12-a346-4ba9-bf48-3bd3f06e5d47)
+https://github.com/user-attachments/assets/0cc5fdcd-5ee1-498d-85f6-0b932254cd01
 
 ## Comparison
-Even though on Windows x64 libjpeg-turbo is x1.25 faster, if you run it at 60 FPS it makes a difference and the room for more things is always welcome. Though it still can be considered as a micro optimization.
+With version 3.1.0 the gap between became much larger. 
 
-On Android though, the difference is x5, so it's a pretty clear choice.
+Previously on Windows x64 libjpeg-turbo was x1.25 faster. Now it's x6.4 faster.
+
+Previously on Android, the difference was around x5, so it was a pretty clear choice. Now it's around x4.7. It's still the clear choice.
 
 ## Unity project
 Unity project is under UnityProject folder, and is a simple representation/demonstration of the usage. It also shows the folder structure and usage (i.e. create/import/dispose) of the library. It's using AsyncGPUReadback to capture the gameview and display it on the preview screens on top of the screen.
@@ -65,7 +64,11 @@ ANDROID_VERSION=29
 Depending on your use case, you may change the Android version
 #### armeabi-v7a
 ```
-cmake -G "Unix Makefiles" -DANDROID_ABI=armeabi-v7a -DANDROID_ARM_MODE=arm -DANDROID_PLATFORM=android-${ANDROID_VERSION} -DANDROID_TOOLCHAIN=${TOOLCHAIN} -DCMAKE_ASM_FLAGS="--target=arm-linux-androideabi${ANDROID_VERSION}" -DCMAKE_TOOLCHAIN_FILE=${NDK_PATH}/build/cmake/android.toolchain.cmake -DCMAKE_MAKE_PROGRAM:FILEPATH=<your_make_binary_path> <your_libjpeg-turbo_source_folder>
+cmake -G "Unix Makefiles" -DANDROID_ABI=armeabi-v7a -DAND
+
+https://github.com/user-attachments/assets/2a1851b2-575f-4719-a873-32a3b4a8b9a3
+
+ROID_ARM_MODE=arm -DANDROID_PLATFORM=android-${ANDROID_VERSION} -DANDROID_TOOLCHAIN=${TOOLCHAIN} -DCMAKE_ASM_FLAGS="--target=arm-linux-androideabi${ANDROID_VERSION}" -DCMAKE_TOOLCHAIN_FILE=${NDK_PATH}/build/cmake/android.toolchain.cmake -DCMAKE_MAKE_PROGRAM:FILEPATH=<your_make_binary_path> <your_libjpeg-turbo_source_folder>
 ```
 Then simply
 ```
