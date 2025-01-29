@@ -13,7 +13,7 @@ Otherwise, simply download **Plugins.zip** file from [releases tab](https://gith
 _Capture settings:_
 
 * Streaming Camera RenderTexture resolution: 1440x810
-* Target FPS for Streaming Camera: 30
+* Target FPS for Streaming Camera: 60
 * Encode Quality: 75
 
 Numbers in the first row are gathered with StopWatch, and in milliseconds.
